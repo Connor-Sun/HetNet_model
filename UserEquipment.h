@@ -12,21 +12,41 @@
 #include "initialize.h"
 #include "BaseStation.h"
 
+extern std::array< std::array< std::array< std::array< int, 5 >, 2 >, 2 >, 2 > Qtable;
 
 class BaseStation;
 
 class UserEquipment
 {
-    friend std::ostream &operator<<( std::ostream &, const UserEquipment & );
+
+    // friend std::ostream &operator<<( std::ostream &, const UserEquipment & );
 
 public:
     UserEquipment( const int, const int );
     //~UserEquipment();
 
-    double getDistance( const BaseStation & ) const;
+    int getSignalStrength( const BaseStation & ) const;
     void randomMove();
 
-    //int reward() const;
+    //获取回报
+    int reward( int, int, int );
+    // 移动状态与所选网络的匹配系数
+    int moveMatch();
+    // 业务请求类型与所选网络的匹配系数
+    int serviceMatch();
+
+    // 选择一个动作
+    void chooseAction();
+    // 随机选择动作
+    int getRandomAction();
+    // 获取最大回报对应的动作或Q值
+    int getMaxAction( const int, const bool );
+
+    // 更新状态
+    void updateState();
+
+    // 执行学习过程
+    void episode();
 
 
 private:
@@ -34,7 +54,14 @@ private:
 
     int xCoordinate;
     int yCoordinate;
-    int connectedBSID = 1;
+    int connectedBSID;
+
+    struct State {
+        int serviceType;
+        int moveState;
+        int signalStrength[2];
+        int loadState[2];
+    } curState;
 
 };
 

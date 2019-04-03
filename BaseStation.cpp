@@ -8,12 +8,13 @@ using namespace std;
 
 unsigned int BaseStation::numberOfBS = 0;
 
+std::vector< BaseStation * > BSMap;
 
 
 BaseStation::BaseStation(const int x, const int y,
                                    const int type)
         : xCoordinate( x ), yCoordinate( y ),
-          typeOfBS( type ), BSID( ++numberOfBS )
+          typeOfBS( type ), BSID( numberOfBS++ )
 {
     numberOfUE = 3 + rand() % 4;
     BSMap[ BSID ] = this;

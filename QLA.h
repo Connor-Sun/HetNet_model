@@ -8,6 +8,8 @@
 #include <array>
 
 
+
+
 class QLA {
 public:
 
@@ -20,10 +22,6 @@ public:
     int moveMatch();
 
     int serviceMatch();
-
-
-
-
 
 
 private:

@@ -4,15 +4,14 @@
 
 #include "QLA.h"
 
+std::array< std::array< std::array< std::array< int, 5 >, 2 >, 2 >, 2 > Qtable;
+
 int QLA::reward(int, int, int) {
 
     int b;  //负载因子，网络中剩余频谱百分比
 
     int reward = b * ( moveMatch() + serviceMatch() );
-
-
 }
-
 
 int QLA::moveMatch() {
     if ( ( curState.moveState == 0 && BStype == 1 )
@@ -55,6 +54,25 @@ int getRandomAction( const int lowerBound, const int upperBound ) {
     } while ( R[currentState][action] == -1 );
 
     return action;
+}
+
+//获取最大回报对应的动作和Q值
+int getMaxAction( const int state, const bool returnType ) {
+// 若 returnType = true, 返回对应的动作
+// 若 returnType = false, 返回对应的Q值
+
+    int maxElement = 0;
+
+    // 找最大值
+    for ( int i = 0; i < qSize; i++ ) {
+        if( i != maxElement ){     // 避免自我比较
+            if(Q[state][i] > Q[state][maxElement]){
+                maxElement = i;
+            }
+        }
+    } // i
+
+    return ( returnType ? maxElement : Q[state][maxElement] );
 }
 
 int reward( const int action ) {
