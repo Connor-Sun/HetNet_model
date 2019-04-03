@@ -8,15 +8,13 @@ using namespace std;
 
 unsigned int BaseStation::numberOfBS = 0;
 
-std::vector< BaseStation * > BSMap;
-
 
 BaseStation::BaseStation(const int x, const int y,
                                    const int type)
         : xCoordinate( x ), yCoordinate( y ),
           typeOfBS( type ), BSID( numberOfBS++ )
 {
-    numberOfUE = 3 + rand() % 4;
+    updateNumberOfUE();
     BSMap[ BSID ] = this;
 }
 
@@ -28,9 +26,16 @@ int BaseStation::getYCoordinate() const {
     return yCoordinate;
 }
 
-int BaseStation::getNumberOfUE() const {
-    return numberOfUE;
+int BaseStation::getLoadState() const {
+
+    return numberOfUE / 20;
 }
+
+void BaseStation::updateNumberOfUE() {
+
+    numberOfUE = rand() % 100;
+}
+
 
 int BaseStation::getType() const {
     return typeOfBS;

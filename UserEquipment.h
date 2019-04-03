@@ -12,7 +12,6 @@
 #include "initialize.h"
 #include "BaseStation.h"
 
-extern std::array< std::array< std::array< std::array< int, 5 >, 2 >, 2 >, 2 > Qtable;
 
 class BaseStation;
 
@@ -22,32 +21,47 @@ class UserEquipment
     // friend std::ostream &operator<<( std::ostream &, const UserEquipment & );
 
 public:
+    UserEquipment();
     UserEquipment( const int, const int );
     //~UserEquipment();
 
-    int getSignalStrength( const BaseStation & ) const;
+
+
+    // 执行学习过程
+    void episode();
+
+
+    // 更新状态
+    void updateState();
+    // 随机移动用户设备
     void randomMove();
 
-    //获取回报
-    int reward( int, int, int );
-    // 移动状态与所选网络的匹配系数
-    int moveMatch();
-    // 业务请求类型与所选网络的匹配系数
-    int serviceMatch();
+    double getDistance(int, int) const;
+    // 获取与基站间的信号强度
+    int getSignalStrength( const BaseStation & ) ;
+
+
 
     // 选择一个动作
     void chooseAction();
     // 随机选择动作
     int getRandomAction();
     // 获取最大回报对应的动作或Q值
-    int getMaxAction( const int, const bool );
+    int getMaxAction();
 
-    // 更新状态
-    void updateState();
 
-    // 执行学习过程
-    void episode();
+    //更新Q表
+    void updateQtable();
 
+    int calculateState();
+    //获取回报
+    double reward();
+    // 移动状态与所选网络的匹配系数
+    int moveMatch();
+    // 业务请求类型与所选网络的匹配系数
+    int serviceMatch();
+
+    int strongcount = 0;
 
 private:
     void setLocation( const int x, const int y );
@@ -62,6 +76,10 @@ private:
         int signalStrength[2];
         int loadState[2];
     } curState;
+
+    int action;
+
+
 
 };
 

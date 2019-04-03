@@ -6,16 +6,30 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <array>
 #include <vector>
 
 #include "BaseStation.h"
 #include "UserEquipment.h"
+#include "QLA.h"
+
 
 class BaseStation;
 class UserEquipment;
 
 extern std::vector< BaseStation * > BSMap;
 extern UserEquipment UE_1;
+
+extern BaseStation LTE;
+extern BaseStation WLAN;
+
+extern std::array< std::array< double, 2 >, 400 > Qtable;
+
+extern double epsilon;
+extern double alpha;
+
+extern const int counts;
+
 
 void initialize();
 

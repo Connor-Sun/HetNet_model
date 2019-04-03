@@ -21,9 +21,9 @@ public:
     int getXCoordinate() const;
     int getYCoordinate() const;
     int getType() const;
-    int getNumberOfUE() const;
+    int getLoadState() const;
+    void updateNumberOfUE();
     int getBSID() const;
-
     static unsigned int getNumberOfBS();
 
 private:
