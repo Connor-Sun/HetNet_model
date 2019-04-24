@@ -23,6 +23,7 @@ public:
     int getType() const;
     int getLoadState() const;
     void updateNumberOfUE();
+
     int getBSID() const;
     static unsigned int getNumberOfBS();
 

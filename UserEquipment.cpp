@@ -55,6 +55,8 @@ void UserEquipment::updateState() {
         curState.signalStrength[i] = getSignalStrength( *BSMap[i] );
     }
 
+// 输出当前状态
+/*
     cout << "\nState:\n"
          << setw(2) << curState.moveState
          << setw(2) << curState.serviceType
@@ -63,6 +65,7 @@ void UserEquipment::updateState() {
          << setw(2) << curState.loadState[0]
          << setw(2) << curState.loadState[1]
          << "\n" << setw(4) << calculateState() << endl;
+*/
 
 }
 
@@ -74,7 +77,7 @@ void UserEquipment::randomMove() {
     setLocation( xChange, yChange );
 
     if ( getDistance( 0, 0 ) >= 200 )
-        randomMove();
+        setLocation( 0, 0 );
 
 /*
     cout << "\nChange of location is ["
@@ -154,21 +157,21 @@ ostream &operator<<( ostream &output, const UserEquipment &UE ) {
 void UserEquipment::chooseAction() {
 
     if ( static_cast< int >( ( rand() % counts ) / ( epsilon * counts ) ) ) {
-        action = getMaxAction();
+        getMaxAction();
     } else {
-        action = getRandomAction();
+        getRandomAction();
     }
-    cout << "Action : " << action << endl;
+    //cout << "Action : " << action << endl;
 }
 
 
-int UserEquipment::getRandomAction() {
+void UserEquipment::getRandomAction() {
     //cout << "rand() = " << rand() << endl;
-    return rand() % 2;
+    action = rand() % 2;
 }
 
 // 获取最大回报对应的动作
-int UserEquipment::getMaxAction() {
+void UserEquipment::getMaxAction() {
 
     int maxAction = 0;
     int state = calculateState();
@@ -182,7 +185,7 @@ int UserEquipment::getMaxAction() {
         }
     } // i
 
-    return maxAction;
+    action = maxAction;
 }
 
 
@@ -209,7 +212,7 @@ double UserEquipment::reward() {
     double reward = ( 5 - curState.loadState[action] )
                 * ( moveMatch() + serviceMatch() )
                 * ( curState.signalStrength[action] + 1 );
-    cout << "reward = " << reward << endl;
+    //cout << "reward = " << reward << endl;
     return reward;
 }
 
@@ -231,7 +234,47 @@ int UserEquipment::serviceMatch() {
     }
 }
 
+// 更新状态
+void UserEquipment::evaluateState( int x, int y, int st, int ms, int ls0, int ls1 ) {
 
+    // 20%概率请求语音服务，80%概率请求数据服务
+    curState.serviceType = st;
+    // 50%移动，50%静止
+    curState.moveState = ms;
+
+    // 更新基站中用户设备数量 并 获取基站负载
+
+    curState.loadState[0] = ls0;
+    curState.loadState[1] = ls1;
+
+
+    // 设置用户设备位置 并 获取信号强度
+    setLocation( x, y );
+
+    for ( int i = 0; i < 2; ++i ) {
+        curState.signalStrength[i] = getSignalStrength( *BSMap[i] );
+    }
+
+// 输出当前状态
+/*
+    cout << "\nState:\n"
+         << setw(2) << curState.moveState
+         << setw(2) << curState.serviceType
+         << setw(2) << curState.signalStrength[0]
+         << setw(2) << curState.signalStrength[1]
+         << setw(2) << curState.loadState[0]
+         << setw(2) << curState.loadState[1]
+         << "\n" << setw(4) << calculateState() << endl;
+*/
+
+}
+
+double UserEquipment::getPF() {
+    double pf = curState.serviceType
+           * ( 4 - curState.loadState[action] + curState.signalStrength[action] ) / 2
+           + moveMatch() + serviceMatch();
+    return pf;
+}
 
 
 

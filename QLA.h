@@ -15,5 +15,6 @@ void update( int );
 
 void printQtable();
 
+void evaluate();
 
 #endif //QLA_H

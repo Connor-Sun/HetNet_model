@@ -45,9 +45,9 @@ public:
     // 选择一个动作
     void chooseAction();
     // 随机选择动作
-    int getRandomAction();
+    void getRandomAction();
     // 获取最大回报对应的动作或Q值
-    int getMaxAction();
+    void getMaxAction();
 
 
     //更新Q表
@@ -60,6 +60,10 @@ public:
     int moveMatch();
     // 业务请求类型与所选网络的匹配系数
     int serviceMatch();
+
+    void evaluateState( int, int, int, int, int, int );
+
+    double getPF();
 
     int strongcount = 0;
 

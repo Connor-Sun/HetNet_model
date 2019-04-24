@@ -19,10 +19,12 @@ BaseStation::BaseStation(const int x, const int y,
 }
 
 int BaseStation::getXCoordinate() const {
+
     return xCoordinate;
 }
 
 int BaseStation::getYCoordinate() const {
+
     return yCoordinate;
 }
 

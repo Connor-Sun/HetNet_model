@@ -6,6 +6,7 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 #include <array>
 #include <vector>
 
@@ -19,6 +20,8 @@ class UserEquipment;
 
 extern std::vector< BaseStation * > BSMap;
 extern UserEquipment UE_1;
+extern UserEquipment UE_evaluate;
+
 
 extern BaseStation LTE;
 extern BaseStation WLAN;
