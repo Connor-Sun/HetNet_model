@@ -54,7 +54,7 @@ void UserEquipment::updateState() {
     for ( int i = 0; i < 2; ++i ) {
         curState.signalStrength[i] = getSignalStrength( *BSMap[i] );
     }
-/*
+
     cout << "\nState:\n"
          << setw(2) << curState.moveState
          << setw(2) << curState.serviceType
@@ -64,7 +64,6 @@ void UserEquipment::updateState() {
          << setw(2) << curState.loadState[1]
          << "\n" << setw(4) << calculateState() << endl;
 
-*/
 }
 
 // 随机移动用户设备
@@ -101,22 +100,32 @@ int UserEquipment::getSignalStrength( const BaseStation &BS )  {
     double distance = getDistance( BS.getXCoordinate(), BS.getYCoordinate() );
 
     if ( BS.getType() == 0 ) {
-        if ( distance >= 150 )
-            return 0;
+        if ( distance <= 50 )
+            return 4;
+        else if ( distance <= 100 )
+            return 3;
+        else if ( distance <= 130 )
+            return 2;
+        else if ( distance <= 150 )
+            return 1;
         else
-            return 1;
-    } else if ( BS.getType() == 1 ) {
-        if ( distance >= 80 )
             return 0;
-        else{
-            strongcount++;
+    } else if ( BS.getType() == 1 ) {
+        if ( distance <= 20 )
+            return 4;
+        else if ( distance <= 30 )
+            return 3;
+        else if ( distance <= 40 )
+            return 2;
+        else if ( distance <= 50 )
             return 1;
-        }
+        else
+            return 0;
     }
 }
 
-/*
 // 重载流插入运算符
+/*
 ostream &operator<<( ostream &output, const UserEquipment &UE ) {
     const BaseStation &BS = *BSMap[ UE.connectedBSID ];
 
@@ -149,7 +158,7 @@ void UserEquipment::chooseAction() {
     } else {
         action = getRandomAction();
     }
-    //cout << "Action : " << action << endl;
+    cout << "Action : " << action << endl;
 }
 
 
@@ -188,8 +197,8 @@ void UserEquipment::updateQtable() {
 
 // 计算当前状态在Q表中的位置
 int UserEquipment::calculateState() {
-    int state = curState.serviceType * 200 + curState.moveState * 100
-                + curState.signalStrength[0] * 50 + curState.signalStrength[1] * 25
+    int state = curState.serviceType * 1250 + curState.moveState * 625
+                + curState.signalStrength[0] * 125 + curState.signalStrength[1] * 25
                 + curState.loadState[0] * 5 + curState.loadState[1];
     return state;
 }
@@ -199,7 +208,8 @@ double UserEquipment::reward() {
 
     double reward = ( 5 - curState.loadState[action] )
                 * ( moveMatch() + serviceMatch() )
-                * ( curState.signalStrength[action] ? 5 : 1 );
+                * ( curState.signalStrength[action] + 1 );
+    cout << "reward = " << reward << endl;
     return reward;
 }
 

@@ -17,7 +17,7 @@ void QLA() {
 
     cout << "End" << endl;
 
-    cout << "\ntotal : " << UE_1.strongcount << endl;
+    //cout << "\ntotal : " << UE_1.strongcount << endl;
     printQtable();
 }
 
@@ -29,7 +29,7 @@ void update( int count ) {
 void printQtable() {
 
     cout << "\nQtable:\n";
-    for ( int i = 0; i < 400; ++i ) {
+    for ( int i = 0; i < 2500; ++i ) {
         cout << "\n" << setw(4) << i
              << setw(10) << Qtable[i][0]
              << setw(10) << Qtable[i][1];

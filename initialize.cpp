@@ -11,14 +11,14 @@ vector< BaseStation * > BSMap( 2 );
 BaseStation LTE( 0, 0, 0 );
 BaseStation WLAN( 125, 0, 1 );
 
-array< array< double, 2 >, 400 > Qtable{};
+array< array< double, 2 >, 2500 > Qtable{};
 
 UserEquipment UE_1;
 
 double epsilon = 1;
 double alpha = 1;
 
-const int counts = 1000000;
+const int counts = 1000;
 
 void initialize() {
     srand( static_cast< unsigned int > ( time( nullptr) ) );

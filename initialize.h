@@ -23,7 +23,7 @@ extern UserEquipment UE_1;
 extern BaseStation LTE;
 extern BaseStation WLAN;
 
-extern std::array< std::array< double, 2 >, 400 > Qtable;
+extern std::array< std::array< double, 2 >, 2500 > Qtable;
 
 extern double epsilon;
 extern double alpha;
